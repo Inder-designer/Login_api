@@ -887,67 +887,67 @@ export default class ClientController extends Controller {
     //     }
 
 
-    //     /**
-    //     * Update client
-    //     */
-    //     @Security('Bearer')
-    //     @Post("/update")
-    //     public async update(@Body() request: { email: string, firstName: string, lastName: string, phoneNumber: number, businessName: string, websiteDomain: string, adminDomain: string, clientId: string }): Promise<IResponse> {
-    //         try {
+        /**
+        * Update client
+        */
+        @Security('Bearer')
+        @Post("/update")
+        public async update(@Body() request: { email: string, firstName: string, lastName: string, phoneNumber: number, businessName: string, websiteDomain: string, adminDomain: string, clientId: string }): Promise<IResponse> {
+            try {
 
-    //             const { firstName, lastName, email, clientId, phoneNumber, websiteDomain, adminDomain } = request;
+                const { firstName, lastName, email, clientId, phoneNumber, websiteDomain, adminDomain } = request;
 
-    //             // check if user exists
-    //             const exists = await findOne(clientModel, { _id: clientId });
+                // check if user exists
+                const exists = await findOne(clientModel, { _id: clientId });
 
-    //             if (!exists) {
-    //                 throw new Error('Invalid Client')
-    //             }
+                if (!exists) {
+                    throw new Error('Invalid Client')
+                }
 
-    //             // if (email) {
-    //             //     const emailExists = await findOne(clientModel, { _id: { $ne: clientId }, email: email });
-    //             //     if (emailExists) {
-    //             //         throw new Error(`Email ${email} is already registered with us`)
-    //             //     }
-    //             // }
+                // if (email) {
+                //     const emailExists = await findOne(clientModel, { _id: { $ne: clientId }, email: email });
+                //     if (emailExists) {
+                //         throw new Error(`Email ${email} is already registered with us`)
+                //     }
+                // }
 
-    //             var payload: { [k: string]: any } = {};
-    //             if (firstName)
-    //                 payload.firstName = firstName;
+                var payload: { [k: string]: any } = {};
+                if (firstName)
+                    payload.firstName = firstName;
 
-    //             if (lastName)
-    //                 payload.lastName = lastName;
+                if (lastName)
+                    payload.lastName = lastName;
 
-    //             if (email)
-    //                 payload.email = email;
+                if (email)
+                    payload.email = email;
 
-    //             if (phoneNumber)
-    //                 payload.phoneNumber = phoneNumber;
-    //             if (websiteDomain)
-    //                 payload.websiteDomain = websiteDomain;
-    //             if (adminDomain)
-    //                 payload.adminDomain = adminDomain;
+                if (phoneNumber)
+                    payload.phoneNumber = phoneNumber;
+                if (websiteDomain)
+                    payload.websiteDomain = websiteDomain;
+                if (adminDomain)
+                    payload.adminDomain = adminDomain;
 
 
-    //             const saveResponse = await upsert(clientModel, payload, clientId)
-    //             // create a temp token
-    //             return {
-    //                 data: saveResponse,
-    //                 error: '',
-    //                 message: 'Client successfully updated!',
-    //                 status: 200
-    //             }
-    //         }
-    //         catch (err: any) {
-    //             logger.error(`${this.req.ip} ${err.message}`)
-    //             return {
-    //                 data: null,
-    //                 error: err.message ? err.message : err,
-    //                 message: '',
-    //                 status: 400
-    //             }
-    //         }
-    //     }
+                const saveResponse = await upsert(clientModel, payload, clientId)
+                // create a temp token
+                return {
+                    data: saveResponse,
+                    error: '',
+                    message: 'Client successfully updated!',
+                    status: 200
+                }
+            }
+            catch (err: any) {
+                logger.error(`${this.req.ip} ${err.message}`)
+                return {
+                    data: null,
+                    error: err.message ? err.message : err,
+                    message: '',
+                    status: 400
+                }
+            }
+        }
 
 
     //     /**

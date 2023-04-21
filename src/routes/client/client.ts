@@ -155,11 +155,11 @@ router.get('/me', authenticate, async (req: Request | any, res: Response) => {
 
 
 
-// router.post('/update', authenticate, async (req: Request | any, res: Response) => {
-//     const controller = new ClientController(req, res)
-//     const response = await controller.update(req.body);
-//     return responseWithStatus(res, response.status, response)
-// })
+    router.post('/update', authenticate, async (req: Request | any, res: Response) => {
+        const controller = new ClientController(req, res)
+        const response = await controller.update(req.body);
+        return responseWithStatus(res, response.status, response)
+    })
 
 // router.post('/updateLinks', async (req: Request | any, res: Response) => {
 //     const controller = new ClientController(req, res)

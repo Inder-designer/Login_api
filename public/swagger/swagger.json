@@ -763,6 +763,80 @@
 				],
 				"parameters": []
 			}
+		},
+		"/api/client/update": {
+			"post": {
+				"operationId": "Update",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "Invitation Link",
+				"tags": [
+					"Client"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"clientId": {
+										"type": "string"
+									},
+									"adminDomain": {
+										"type": "string"
+									},
+									"websiteDomain": {
+										"type": "string"
+									},
+									"businessName": {
+										"type": "string"
+									},
+									"phoneNumber": {
+										"type": "number",
+										"format": "double"
+									},
+									"lastName": {
+										"type": "string"
+									},
+									"firstName": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"clientId",
+									"adminDomain",
+									"websiteDomain",
+									"businessName",
+									"phoneNumber",
+									"lastName",
+									"firstName",
+									"email"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"servers": [
