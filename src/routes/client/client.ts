@@ -197,11 +197,12 @@ router.get('/me', authenticate, async (req: Request | any, res: Response) => {
 //     return responseWithStatus(res, response.status, response)
 // })
 
-// router.post('/uploadFile', multerMiddleware.single('file'), async (req: Request | any, res: Response) => {
-//     const controller = new ClientController(req, res)
-//     const response = await controller.uploadFile(req.file as Express.Multer.File);
-//     return responseWithStatus(res, response.status, response)
-// })
+router.post('/uploadFile',authenticate, multerMiddleware.single('file'), async (req: Request | any, res: Response) => {
+    const controller = new ClientController(req, res)
+    console.log(req.body.user.id,"userid")
+    const response = await controller.uploadFile(req.file as Express.Multer.File);
+    return responseWithStatus(res, response.status, response)
+})
 
 // router.post('/getPlanAndFeature', authenticate, async (req: Request | any, res: Response) => {
 //     const controller = new ClientController(req, res)
