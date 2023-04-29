@@ -87,13 +87,13 @@ router.get('/me', authenticate, async (req: Request | any, res: Response) => {
     return responseWithStatus(res, status, response)
 })
 
-// router.post('/changePassword', authenticate, async (req: Request | any, res: Response) => {
-//     const { oldPassword, newPassword } = req.body;
-//     const controller = new ClientController(req, res)
-//     const response = await controller.changePassword({ oldPassword, newPassword });
-//     const { status } = response;
-//     return responseWithStatus(res, status, response)
-// })
+router.post('/changePassword', authenticate, async (req: Request | any, res: Response) => {
+    const { oldPassword, newPassword } = req.body;
+    const controller = new ClientController(req, res)
+    const response = await controller.changePassword({ oldPassword, newPassword });
+    const { status } = response;
+    return responseWithStatus(res, status, response)
+})
 
 // router.get('/users',authenticateAdmin, async (req: Request | any, res: Response) => {
 //     let {pageNumber,pageSize,search,status,kycStatus} = req.query;
@@ -109,21 +109,21 @@ router.get('/me', authenticate, async (req: Request | any, res: Response) => {
 // });
 
 
-// router.post('/createMpin',authenticate, async (req: Request | any, res: Response) => {
-//     const { mpin } = req.body;
-//     const controller = new ClientController(req, res)
-//     const response = await controller.createMpin({ mpin });
-//     const { status } = response;
-//     return responseWithStatus(res, status, response)
-// });
+router.post('/createMpin',authenticate, async (req: Request | any, res: Response) => {
+    const { mpin } = req.body;
+    const controller = new ClientController(req, res)
+    const response = await controller.createMpin({ mpin });
+    const { status } = response;
+    return responseWithStatus(res, status, response)
+});
 
-// router.post('/verifyMpin', authenticate,async (req: Request | any, res: Response) => {
-//     const { otp } = req.body;
-//     const controller = new ClientController(req, res)
-//     const response = await controller.verifyMpin({ otp });
-//     const { status } = response;
-//     return responseWithStatus(res, status, response)
-// });
+router.post('/verifyMpin', authenticate,async (req: Request | any, res: Response) => {
+    const { otp } = req.body;
+    const controller = new ClientController(req, res)
+    const response = await controller.verifyMpin({ otp });
+    const { status } = response;
+    return responseWithStatus(res, status, response)
+});
 // router.post('/createMpin', async (req: Request | any, res: Response) => {
 //     const { mpin } = req.body;
 //     const controller = new ClientController(req, res)
@@ -197,11 +197,11 @@ router.get('/me', authenticate, async (req: Request | any, res: Response) => {
 //     return responseWithStatus(res, response.status, response)
 // })
 
-// router.post('/uploadFile', multerMiddleware.single('file'), async (req: Request | any, res: Response) => {
-//     const controller = new ClientController(req, res)
-//     const response = await controller.uploadFile(req.file as Express.Multer.File);
-//     return responseWithStatus(res, response.status, response)
-// })
+router.post('/uploadFile', multerMiddleware.single('file'), async (req: Request | any, res: Response) => {
+    const controller = new ClientController(req, res)
+    const response = await controller.uploadFile(req.file as Express.Multer.File);
+    return responseWithStatus(res, response.status, response)
+})
 
 // router.post('/getPlanAndFeature', authenticate, async (req: Request | any, res: Response) => {
 //     const controller = new ClientController(req, res)

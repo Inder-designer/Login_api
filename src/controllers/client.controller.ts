@@ -396,46 +396,46 @@ export default class ClientController extends Controller {
           }
       }
 
-    //     /**
-    // * Change Password endpoint
-    // */
-    //     @Security('Bearer')
-    //     @Post("/changePassword")
-    //     public async changePassword(@Body() request: { oldPassword: string, newPassword: string }): Promise<IResponse> {
-    //         try {
-    //             const { oldPassword, newPassword } = request;
-    //             const validatedChangePassword = validateChangePassword({ oldPassword, newPassword });;
-    //             if (validatedChangePassword.error) {
-    //                 throw new Error(validatedChangePassword.error.message)
-    //             }
-    //             const exists = await getById(clientModel, this.userId)
-    //             if (!exists) {
-    //                 throw new Error('Invalid Admin')
-    //             }
-    //             const isValid = await verifyHash(oldPassword, exists.password);
-    //             if (!isValid) {
-    //                 throw new Error('Password is incorrect')
-    //             }
-    //             const hashed = await genHash(newPassword)
-    //             const updated = await upsert(clientModel, { password: hashed }, this.userId)
+        /**
+    * Change Password endpoint
+    */
+        @Security('Bearer')
+        @Post("/changePassword")
+        public async changePassword(@Body() request: { oldPassword: string, newPassword: string }): Promise<IResponse> {
+            try {
+                const { oldPassword, newPassword } = request;
+                const validatedChangePassword = validateChangePassword({ oldPassword, newPassword });;
+                if (validatedChangePassword.error) {
+                    throw new Error(validatedChangePassword.error.message)
+                }
+                const exists = await getById(clientModel, this.userId)
+                if (!exists) {
+                    throw new Error('Invalid Admin')
+                }
+                const isValid = await verifyHash(oldPassword, exists.password);
+                if (!isValid) {
+                    throw new Error('Password is incorrect')
+                }
+                const hashed = await genHash(newPassword)
+                const updated = await upsert(clientModel, { password: hashed }, this.userId)
 
-    //             return {
-    //                 data: {},
-    //                 error: '',
-    //                 message: 'Password changed successfully!',
-    //                 status: 200
-    //             }
-    //         }
-    //         catch (err: any) {
-    //             logger.error(`${this.req.ip} ${err.message}`)
-    //             return {
-    //                 data: null,
-    //                 error: err.message ? err.message : err,
-    //                 message: '',
-    //                 status: 400
-    //             }
-    //         }
-    //     }
+                return {
+                    data: {},
+                    error: '',
+                    message: 'Password changed successfully!',
+                    status: 200
+                }
+            }
+            catch (err: any) {
+                logger.error(`${this.req.ip} ${err.message}`)
+                return {
+                    data: null,
+                    error: err.message ? err.message : err,
+                    message: '',
+                    status: 400
+                }
+            }
+        }
 
     //     /**
     //          * Get Users list by Admin auth
@@ -543,90 +543,90 @@ export default class ClientController extends Controller {
     //     }
 
 
-    //       /**
-    //   * Create Mpin
-    //   */
-    //       @Security('Bearer')
-    //       @Post("/creatempin")
-    //       public async createMpin(@Body() request: { mpin: string }): Promise<IResponse> {
-    //           try {3
-    //               let { mpin } = request;
-    //               const exists = await getById(clientModel, this.userId)
-    //               if (!exists) {
-    //                   throw new Error('Invalid User')
-    //               }
-    //               if (exists.mpin) {
-    //                   throw new Error('Mpin already exists')
-    //               }
-    //               const hashed = await genHash(mpin);
-    //               await upsert(clientModel, { mpin: hashed}, exists._id);
-    //               const otp = generateRandomOtp()
-    //               await deleteMany(otpModel, { email: exists.email });
-    //               await upsert(otpModel, { otp, email: exists.email });
-    //               // send a mail with otp
-    //               const html = await readHTMLFile(path.join(process.cwd(), 'src', 'template', 'otp_email.html'))
-    //               const template = handlebar.compile(html)
-    //               const [otp1, otp2, otp3, otp4, otp5, otp6] = otp.split('');
-    //               const tempData = template({ otp1, otp2, otp3, otp4, otp5, otp6, email: exists.email, firstName: exists.firstName })
-    //               await sendEmail(process.env.EMAIL_NOTIFICATION_ADDRESS, 'OTP for verify Mpin', exists.email, tempData)
-    //               return {
-    //                   data: {},
-    //                   error: '',
-    //                   message: 'Email sent successfully, please verify MPIN otp!!',
-    //                   status: 200
-    //               }
-    //           }
-    //           catch (err: any) {
-    //               logger.error(`${this.req.ip} ${err.message}`)
-    //               return {
-    //                   data: null,
-    //                   error: err.message ? err.message : err,
-    //                   message: '',
-    //                   status: 400
-    //               }
-    //           }
-    //       }
+          /**
+      * Create Mpin
+      */
+          @Security('Bearer')
+          @Post("/creatempin")
+          public async createMpin(@Body() request: { mpin: string }): Promise<IResponse> {
+              try {3
+                  let { mpin } = request;
+                  const exists = await getById(clientModel, this.userId)
+                  if (!exists) {
+                      throw new Error('Invalid User')
+                  }
+                  if (exists.mpin) {
+                      throw new Error('Mpin already exists')
+                  }
+                  const hashed = await genHash(mpin);
+                  await upsert(clientModel, { mpin: hashed}, exists._id);
+                  const otp = generateRandomOtp()
+                  await deleteMany(otpModel, { email: exists.email });
+                  await upsert(otpModel, { otp, email: exists.email });
+                  // send a mail with otp
+                  const html = await readHTMLFile(path.join(process.cwd(), 'src', 'template', 'otp_email.html'))
+                  const template = handlebar.compile(html)
+                  const [otp1, otp2, otp3, otp4, otp5, otp6] = otp.split('');
+                  const tempData = template({ otp1, otp2, otp3, otp4, otp5, otp6, email: exists.email, firstName: exists.firstName })
+                  await sendEmail(process.env.EMAIL_NOTIFICATION_ADDRESS, 'OTP for verify Mpin', exists.email, tempData)
+                  return {
+                      data: {},
+                      error: '',
+                      message: 'Email sent successfully, please verify MPIN otp!!',
+                      status: 200
+                  }
+              }
+              catch (err: any) {
+                  logger.error(`${this.req.ip} ${err.message}`)
+                  return {
+                      data: null,
+                      error: err.message ? err.message : err,
+                      message: '',
+                      status: 400
+                  }
+              }
+          }
 
 
-    //       /**
-    // * verify Mpin
-    // */
-    //     @Security('Bearer')
-    //     @Post("/verifyMpin")
-    //     public async verifyMpin(@Body() request: { otp: number }): Promise<IResponse> {
-    //         try {
-    //             let { otp } = request;
-    //             let exists = await getById(clientModel, this.userId)
-    //             if (!exists) {
-    //                 throw new Error('Invalid User')
-    //             }
-    //             if (exists.mpinMode == true) {
-    //                 throw new Error('Mpin already verified')
-    //             }
-    //             const otpData = await findOne(otpModel, { email: exists.email });
+          /**
+    * verify Mpin
+    */
+        @Security('Bearer')
+        @Post("/verifyMpin")
+        public async verifyMpin(@Body() request: { otp: number }): Promise<IResponse> {
+            try {
+                let { otp } = request;
+                let exists = await getById(clientModel, this.userId)
+                if (!exists) {
+                    throw new Error('Invalid User')
+                }
+                if (exists.mpinMode == true) {
+                    throw new Error('Mpin already verified')
+                }
+                const otpData = await findOne(otpModel, { email: exists.email });
 
-    //             if (!otpData || otpData.otp !== otp) {
-    //                 throw new Error('Invalid OTP')
-    //             }
-    //             await upsert(clientModel, { mpinMode: true }, exists._id);
-    //             await deleteMany(otpModel, { email: exists.email });
-    //             return {
-    //                 data: {},
-    //                 error: '',
-    //                 message: 'Mpin verified successfully',
-    //                 status: 200
-    //             }
-    //         }
-    //         catch (err: any) {
-    //             logger.error(`${this.req.ip} ${err.message}`)
-    //             return {
-    //                 data: null,
-    //                 error: err.message ? err.message : err,
-    //                 message: '',
-    //                 status: 400
-    //             }
-    //         }
-    //     }
+                if (!otpData || otpData.otp !== otp) {
+                    throw new Error('Invalid OTP')
+                }
+                await upsert(clientModel, { mpinMode: true }, exists._id);
+                await deleteMany(otpModel, { email: exists.email });
+                return {
+                    data: {},
+                    error: '',
+                    message: 'Mpin verified successfully',
+                    status: 200
+                }
+            }
+            catch (err: any) {
+                logger.error(`${this.req.ip} ${err.message}`)
+                return {
+                    data: null,
+                    error: err.message ? err.message : err,
+                    message: '',
+                    status: 400
+                }
+            }
+        }
 
 
 
@@ -892,10 +892,10 @@ export default class ClientController extends Controller {
         */
         @Security('Bearer')
         @Post("/update")
-        public async update(@Body() request: { email: string, firstName: string, lastName: string, phoneNumber: number, businessName: string, websiteDomain: string, adminDomain: string, clientId: string }): Promise<IResponse> {
+        public async update(@Body() request: { email: string, firstName: string, lastName: string, phoneNumber: number, username: string, clientId: string }): Promise<IResponse> {
             try {
 
-                const { firstName, lastName, email, clientId, phoneNumber, websiteDomain, adminDomain } = request;
+                const { firstName, lastName, email, clientId, phoneNumber, username } = request;
 
                 // check if user exists
                 const exists = await findOne(clientModel, { _id: clientId });
@@ -923,11 +923,18 @@ export default class ClientController extends Controller {
 
                 if (phoneNumber)
                     payload.phoneNumber = phoneNumber;
-                if (websiteDomain)
-                    payload.websiteDomain = websiteDomain;
-                if (adminDomain)
-                    payload.adminDomain = adminDomain;
 
+                if (username)
+                    payload.username = username;
+                
+                
+                const userUsername = await findOne(clientModel, { username });
+                if ( !userUsername) {
+                    const saveResponse = await upsert(clientModel, payload, clientId)
+                } 
+                // else{
+                //     throw new Error(`Username ${username} is already exists`)
+                // }
 
                 const saveResponse = await upsert(clientModel, payload, clientId)
                 // create a temp token
@@ -943,7 +950,7 @@ export default class ClientController extends Controller {
                 return {
                     data: null,
                     error: err.message ? err.message : err,
-                    message: '',
+                    message: 'Username is already exists',
                     status: 400
                 }
             }
@@ -1282,32 +1289,32 @@ export default class ClientController extends Controller {
 
 
 
-    //     /**
-    //     * Upload a file
-    //     */
-    //     @Security('Bearer')
-    //     @Post("/uploadFile")
-    //     public async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IResponse> {
-    //         try {
-    //             const saveResponse = await upsert(clientModel, { file: file.filename })
-    //             return {
-    //                 data: saveResponse.toObject(),
-    //                 error: '',
-    //                 message: 'File successfully uploaded',
-    //                 status: 200
-    //             }
-    //         }
+        /**
+        * Upload a file
+        */
+        @Security('Bearer')
+        @Post("/uploadFile")
+        public async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IResponse> {
+            try {
+                const saveResponse = await upsert(clientModel, { file: file.filename })
+                return {
+                    data: saveResponse.toObject(),
+                    error: '',
+                    message: 'File successfully uploaded',
+                    status: 200
+                }
+            }
 
-    //         catch (err: any) {
-    //             logger.error(`${this.req.ip} ${err.message}`)
-    //             return {
-    //                 data: null,
-    //                 error: err.message ? err.message : err,
-    //                 message: '',
-    //                 status: 400
-    //             }
-    //         }
-    //     }
+            catch (err: any) {
+                logger.error(`${this.req.ip} ${err.message}`)
+                return {
+                    data: null,
+                    error: err.message ? err.message : err,
+                    message: '',
+                    status: 400
+                }
+            }
+        }
 
 
     //     /**
