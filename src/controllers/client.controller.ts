@@ -1,6 +1,6 @@
 // @ts-ignore
 import { Route, Controller, Tags, Post, Body, Security, Query, UploadedFile, Get, Put } from 'tsoa'
-import handlebar from 'handlebars';
+import handlebar, { log } from 'handlebars';
 import path from 'path';
 import { Request, Response } from 'express'
 import { validateChangePassword, validateProfile, validateResetPassword, validateAdmin } from '../validations/admin.validator';
@@ -57,7 +57,9 @@ export default class ClientController extends Controller {
             // if (!userOtp) {
             //     throw new Error(`Please verify Otp first!!`)
             // }
-            let referCodeCreate = firstName.toUpperCase().slice(0, 4) + generateRandomOtp()
+        console.log(firstName,"firstName")
+            let referCodeCreate = firstName.toUpperCase().slice(0,4) + generateRandomOtp()
+            console.log(referCodeCreate,"referCodeCreate")
             let saveResponse = await upsert(clientModel, { username, email, firstName, lastName, password: hashed, phoneNumber, language, status: "APPROVED", partnerCode: referCodeCreate })
             await deleteMany(otpModel, { email: email })
             return {
@@ -110,7 +112,7 @@ export default class ClientController extends Controller {
             return {
                 data: {},
                 error: '',
-                message: 'Otp successfully sent, please check your mail!!',
+                message: 'OTP successfully sent, please check your mail!!',
                 status: 200
             }
         }
@@ -140,7 +142,7 @@ export default class ClientController extends Controller {
             }
             // check Otp
             if (otp != exists.otp) {
-                throw new Error('Wrong Otp Entered, please check your otp!!')
+                throw new Error('Invalid OTP!!')
             }
             else {
                 await upsert(otpModel, { isActive: true }, exists._id)
@@ -1296,7 +1298,10 @@ export default class ClientController extends Controller {
         @Post("/uploadFile")
         public async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IResponse> {
             try {
-                const saveResponse = await upsert(clientModel, { file: file.filename })
+
+                let id = this.userId
+                console.log(id,"idddd",this.userId,"kk")
+                const saveResponse = await upsert(clientModel, { file: file.filename },id)
                 return {
                     data: saveResponse.toObject(),
                     error: '',
